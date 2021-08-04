@@ -8,7 +8,7 @@ const textPost = document.querySelector('.homePostContainer')
 
 const btn = document.querySelector('.mobile-menu-button')
 const menu = document.querySelector('.mobile-menu')
-const myPost = document.querySelector('.postContainer')
+// const myPost = document.querySelector('.postContainer')
 const homePost = mockroblog.getHomeTimeline('KevinAWortman')
 const logoutNav = document.querySelector('.logout-nav')
 const signUpbtn = document.querySelector('.tempbtn')

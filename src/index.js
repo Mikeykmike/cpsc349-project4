@@ -135,7 +135,7 @@ btnCreate.addEventListener('click', (e) => {
       e.preventDefault()
       eerrorMessage = 'Please enter a valid email address.'
       emailErrorElement.innerText = eerrorMessage
-      eerror.classList.toggle('hidden')
+      document.getElementId('eerror').classList.toggle('hidden')
       fakeEmail = 1
     }
   }
@@ -147,23 +147,23 @@ btnCreate.addEventListener('click', (e) => {
     e.preventDefault()
     eerrorMessage = 'Please enter a valid email address.'
     emailErrorElement.innerText = eerrorMessage
-    eerror.classList.toggle('hidden')
+    document.getElementId('eerror').classList.toggle('hidden')
   } else if (createUserAcc.value.length < 4 || createUserAcc.value.length > 20) {
     e.preventDefault()
     uerrorMessage = 'Username must be between 4 - 20 characters.'
     userErrorElement.innerText = uerrorMessage
-    uerror.classList.toggle('hidden')
+    document.getElementID('uerror').classList.toggle('hidden')
   } else if (createUserAcc.value === 'ProfAvery' || createUserAcc.value === 'KevinAWortman' || createUserAcc.value === 'Beth_CSUF') {
     e.preventDefault()
     uerrorMessage = 'Username already taken.'
     console.log('taken')
     userErrorElement.innerText = uerrorMessage
-    uerror.classList.toggle('hidden')
+    document.getElementID('uerror').classList.toggle('hidden')
   } else if (createUserPassword.value.length < 8 || createUserPassword.value.length > 25) {
     e.preventDefault()
     perrorMessage = 'Password must be between 8 - 25 characters.'
     passwordErrorElement.innerText = perrorMessage
-    perror.classList.toggle('hidden')
+    document.getElementID('perror').classList.toggle('hidden')
   }
 })
 
