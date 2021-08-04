@@ -4,73 +4,61 @@ Initialize all components from HTML
 import './tailwind.css'
 import * as mockroblog from './mockroblog.js'
 
-const textPost = document.querySelector(".publicPostContainer") 
-
-const btn = document.querySelector(".mobile-menu-button")
-const menu = document.querySelector(".mobile-menu")
+const textPost = document.querySelector('.publicPostContainer')
+const btn = document.querySelector('.mobile-menu-button')
+const menu = document.querySelector('.mobile-menu')
 const publicPost = mockroblog.getPublicTimeline()
 const signUpbtn = document.querySelector('.tempbtn')
-const logoutNav = document.querySelector(".logout-nav")
-const activeLink = document.querySelector(".navbaraboutuslink")
+const logoutNav = document.querySelector('.logout-nav')
+const activeLink = document.querySelector('.navbaraboutuslink')
 
-
-if(document.URL.includes("public.html"))
-{
-    activeLink.classList.add("text-blue-400")
-    activeLink.classList.add("font-extrabold")
+if (document.URL.includes('public.html')) {
+  activeLink.classList.add('text-blue-400')
+  activeLink.classList.add('font-extrabold')
 }
 
 /*
 Extracting object from local storage and parsing it JSON
 */
 const account = JSON.parse(localStorage.getItem('profile'))
-//Event Listeners
+// Event Listeners
 
-if(localStorage.getItem('loggedin') === 'true')
-{
-    signUpbtn.textContent = 'Log Out'
-    signUpbtn.style.backgroundColor = "red"
-    logoutNav.classList.toggle("hidden")
+if (localStorage.getItem('loggedin') === 'true') {
+  signUpbtn.textContent = 'Log Out'
+  signUpbtn.style.backgroundColor = 'red'
+  logoutNav.classList.toggle('hidden')
 
-    signUpbtn.addEventListener('click', () => {
-        localStorage.clear()
-        alert("Successfully logged out.")
-        location.href = "index.html"
-    })
-    
+  signUpbtn.addEventListener('click', () => {
+    localStorage.clear()
+    alert('Successfully logged out.')
+    location.href = 'index.html'
+  })
+} else {
+  signUpbtn.addEventListener('click', () => {
+    location.href = 'index.html'
+  })
 }
-else
-{
-    signUpbtn.addEventListener('click', () => {
-        location.href = "index.html"
-    }) 
-}
-
-
 
 btn.addEventListener('click', () => {
-    console.log("mobile");
-    menu.classList.toggle("hidden");
+  console.log('mobile')
+  menu.classList.toggle('hidden')
 })
 
-
 logoutNav.addEventListener('click', () => {
-    localStorage.clear()
-    alert("Successfully logged out.")
-    location.href = "index.html"
+  localStorage.clear()
+  alert('Successfully logged out.')
+  location.href = 'index.html'
 })
 
 publicPost.forEach(obj => {
-
-
-    textPost.innerHTML += `
-    <div class="userName pt-5 w-40 px-3 font-bold text-blue-700" >
+  textPost.innerHTML += `
+    <div class='userName pt-5 w-40 px-3 font-bold text-blue-700' >
     </p> User ID: ${obj.user_id}</p>
     </div>
 
     <!--follow button-->
    
-        <button class = "followtbtn hidden m-2 w-20 h-5 h-2 pb-2 text-white font-bold tracking-wider rounded bg-blue-500 active:bg-blue-700">
+        <button class = 'followtbtn hidden m-2 w-20 h-5 h-2 pb-2 text-white font-bold tracking-wider rounded bg-blue-500 active:bg-blue-700'>
         follow
         </button> 
     
@@ -114,42 +102,32 @@ publicPost.forEach(obj => {
             </div>
         </div>
     `
-
 })
 
-const follow = document.querySelectorAll(".followtbtn")
-const unfollow = document.querySelectorAll(".unfollowbtn")
-if(localStorage.getItem('loggedin') === 'true'){
-
-    follow.forEach((btnFollow,index)=>{
-
-        
-        btnFollow.classList.remove("hidden")
-        btnFollow.addEventListener('click', () => {
-
-            btnFollow.classList.add("hidden");
-            unfollow[index].classList.remove("hidden");
-            unfollow[index].style.backgroundColor = "red"
-            const addingFollower = mockroblog.addFollower(publicPost[index].id, account.id);
-            console.log(addingFollower);
-            console.log("you followed User ID:", publicPost[index].user_id);
+const follow = document.querySelectorAll('.followtbtn')
+const unfollow = document.querySelectorAll('.unfollowbtn')
+if (localStorage.getItem('loggedin') === 'true') {
+  follow.forEach((btnFollow, index) => {
+    btnFollow.classList.remove('hidden')
+    btnFollow.addEventListener('click', () => {
+      btnFollow.classList.add('hidden')
+      unfollow[index].classList.remove('hidden')
+      unfollow[index].style.backgroundColor = 'red'
+      const addingFollower = mockroblog.addFollower(publicPost[index].id, account.id)
+      console.log(addingFollower)
+      console.log('you followed User ID:', publicPost[index].user_id)
     })
-    
-    
-})
+  })
 
-    unfollow.forEach( (btnUnFollow,index)=>{
-
-        btnUnFollow.addEventListener('click', () => {
-            btnUnFollow.classList.add("hidden");
-            follow[index].classList.remove("hidden");
-            const removingFollower = mockroblog.removeFollower(publicPost[index].id, account.id);
-            console.log(removingFollower);
-            console.log("you unfollowed User ID:", publicPost[index].user_id);
+  unfollow.forEach((btnUnFollow, index) => {
+    btnUnFollow.addEventListener('click', () => {
+      btnUnFollow.classList.add('hidden')
+      follow[index].classList.remove('hidden')
+      const removingFollower = mockroblog.removeFollower(publicPost[index].id, account.id)
+      console.log(removingFollower)
+      console.log('you unfollowed User ID:', publicPost[index].user_id)
     })
-})
-}
-else{
-    console.log("im not logged in")
-    
+  })
+} else {
+  console.log('im not logged in')
 }
