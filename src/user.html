@@ -2,15 +2,16 @@
 <html lang="en">
 
 <head>
-    <title>Mockroblog</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User !</title>
     <!-- <link rel="stylesheet" href="styles/tailwind.css">
     <link rel="shortcut icon" type="image/x-icon" href="./images/logo.ico">   
-    <script type="module" src="scripts/init.js"></script> -->
+    <script type="module" src="scripts/user.js"></script> -->
 </head>
 
-<body>
+<body class="antialiased  text-gray-800">
     <div class="py-8">
         <header>
             <!-- navbar goes here -->
@@ -42,7 +43,7 @@
                                     </svg>Public
                                 </a>
                                 <a href="user.html"
-                                    class="flex items-center transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 py-5 px-3 text-lg text-gray-100 hover:text-blue-300">
+                                    class="navbaraboutuslink flex items-center transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 py-5 px-3 text-lg text-gray-100 hover:text-blue-300">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -78,7 +79,7 @@
                                         d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                 </svg>About Us
                             </a>
-                            <a class="signup-nav transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 tempbtn py-1 px-3 bg-blue-400 text-lg text-black rounded shadow-lg hover:bg-green-300 hover:text-green-800 transition duration-300 "
+                            <a class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 tempbtn py-1 px-3 bg-blue-400 text-lg text-black rounded shadow-lg hover:bg-green-300 hover:text-green-800 transition duration-300 "
                                 href="#">
                                 Sign Up
                             </a>
@@ -111,78 +112,21 @@
     </div>
 
     <!-- CONTEXT OF WEBSITE STARTS HERE -->
-    <div class="min-h-screen bg-gray-100 flex flex-col space-y-10 justify-center items-center">
 
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-40 w-40 mr-1 text-blue-400" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-        </svg>
-        <h1 class="text-5xl font-extrabold">Team5 Blogs</h1>
-        <!--Login window starts here-->
-        <div class="login-container bg-white shadow-xl rounded p-5">
+    <div class="container px-6 py-4 mx-auto">
 
-            <form class="space-y-5 mt-5">
-                <p class="text 2x1 font-bold"> Username: </p>
-                <input type="text" class="input-username w-full h-12 border border-blue-400 rounded px-3"
-                    placeholder="Enter Username here" required />
-
-                <p class="text 2x1 font-bold"> Password: </p>
-
-                <input type="password" class="input-password w-full h-12 border border-blue-400 rounded px-3"
-                    placeholder="Enter Password here" required />
-
-
-                <button
-                    class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 btn-login text-center w-full bg-blue-400 rounded-md text-white py-3 font-bold hover:bg-green-300">
-                    <a href="#">Login</a></button>
-
-                <p class="text 2x1 text-center font-bold"> Don't have an account?</p>
-                <button
-                    class="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 btn-signup text-center w-full bg-blue-400 rounded-md text-white py-3 font-bold hover:bg-green-300">
-                    <a href="#">Sign up</a></button>
-            </form>
-
+        <img src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/263F418F2C47943D98B2877ECAD174927FBBD359C4AFB45BE0C6A22AD589D22E/scale?width=300&amp;aspectRatio=1&amp;format=png"
+            alt="" class="h-24 w-24 object-cover rounded-full shadow-md border-4">
+        <div class="userName px-3 font-bold text-blue-700">Full Name</div>
+        <div class="timeline-container"> </div>
+        <div class="timeline-pointer" aria-hidden="true">
+            <div class="postContainer bg-white p-6 rounded-md shadow-md">
+            </div>
         </div>
-        <!--Login window ends here-->
-
-        <!--Sign up window-->
-        <div class="signup-container hidden bg-white shadow-xl rounded p-5">
-
-            <form class="space-y-5 mt-5">
-                <p class="text 2x1 font-bold"> Email Address: </p>
-                <input type="text" class="create-email w-full h-12 border border-blue-400 rounded px-3"
-                    placeholder="Enter Email Address here" required />
-                <p class="hidden text-red-600 font-bold" id="eerror"></p>
-                <p class="text 2x1 font-bold"> Username: </p>
-
-                <input type="text" class="create-username w-full h-12 border border-blue-400 rounded px-3"
-                    placeholder="Enter Desired Username here" required />
-                <p class="hidden text-red-600 font-bold" id="uerror"></p>
-                <p class="text 2x1 font-bold"> Password: </p>
-
-                <input type="password" class="create-password w-full h-12 border border-blue-400 rounded px-3"
-                    placeholder="Enter Desired Password here" required />
-
-                <p class="hidden text-red-600 font-bold" id="perror"></p>
-                <button
-                    class="transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110 btn-create text-center w-full bg-blue-400 rounded-md text-white py-3 font-bold hover:bg-green-300"
-                    type="submit">
-                    <a href="#">Create Account</a></button>
-                <p class="text 2x1 text-center"> Already have an account?<a href="#"
-                        class="text-login text-blue-400 font-bold hover:text-blue-500"> Log In</a> </p>
-            </form>
-
-        </div>
-
-        <!--Sign up window ends-->
-        <div class="display-container hidden text-center text-3xl font-extrabold text-gray-400">You are currently logged
-            in as </div>
-        <div class="userName text-3xl font-extrabold text-blue-400"></div>
     </div>
 
     <!-- FOOTER SECTION -->
-    <footer class="text-gray-600 bg-black body-font bottom-0">
+    <footer class="text-gray-100 bg-black body-font">
         <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
             <a href="index.html"
                 class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
@@ -194,16 +138,14 @@
                 </svg>
 
             </a>
-            <span class="ml-3 text-xl text-gray-100">Team5 Blogs</span>
+            <span class="ml-3 text-xl ">Team5 Blogs</span>
             <p class="text-lg text-gray-100 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">©
                 2021 Team5 Blogs
             </p>
             <p class="text-lg text-gray-100 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">
                 CPSC 349 Project 3
             </p>
-
         </div>
-
     </footer>
 </body>
 

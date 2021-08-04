@@ -187,3 +187,7 @@ INSERT INTO poll_votes(poll_id, user_id, option_id) VALUES(1, 1, 4);
 INSERT INTO poll_votes(poll_id, user_id, option_id) VALUES(1, 2, 1);
 INSERT INTO poll_votes(poll_id, user_id, option_id) VALUES(1, 3, 1);
 
+
+/*
+If needed we can create more tables here and address any other data if necessary 
+*/
