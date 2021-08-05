@@ -32,7 +32,7 @@ if (localStorage.getItem('loggedin') === 'true') {
 // Event Listeners
 
 btn.addEventListener('click', () => {
-  console.log('Hello')
+  console.log('mobile')
   menu.classList.toggle('hidden')
 })
 
