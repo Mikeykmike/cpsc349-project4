@@ -9,8 +9,8 @@ const textPost = document.querySelector('.homePostContainer')
 const btn = document.querySelector('.mobile-menu-button')
 const menu = document.querySelector('.mobile-menu')
 // const myPost = document.querySelector('.postContainer')
-const account = JSON.parse(localStorage.getItem('profile'))
-const homePost = mockroblog.getHomeTimeline('chris')
+// const account = JSON.parse(localStorage.getItem('profile'))
+const homePost = mockroblog.getHomeTimeline('ProfAvery')
 const logoutNav = document.querySelector('.logout-nav')
 const signUpbtn = document.querySelector('.tempbtn')
 const activeLink = document.querySelector('.navbaraboutuslink')
@@ -32,7 +32,7 @@ if (localStorage.getItem('loggedin') === 'true') {
 // Event Listeners
 
 btn.addEventListener('click', () => {
-  console.log('Hello')
+  console.log('mobile')
   menu.classList.toggle('hidden')
 })
 
@@ -110,7 +110,7 @@ follow.forEach((btnFollow, index) => {
     btnFollow.classList.add('hidden')
     unfollow[index].classList.remove('hidden')
     unfollow[index].style.backgroundColor = 'red'
-    follow
+    // follow
     console.log('You followed')
   })
 })
@@ -119,7 +119,7 @@ unfollow.forEach((btnUnFollow, index) => {
   btnUnFollow.addEventListener('click', () => {
     btnUnFollow.classList.add('hidden')
     follow[index].classList.remove('hidden')
-    unfollow
+    // unfollow
     console.log('You unfollowed')
   })
 })

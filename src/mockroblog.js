@@ -1,40 +1,40 @@
-/* Mockroblog client API stubs for prototyping */
-
-export function createUser(username, email, password) {
-  if (['ProfAvery', 'KevinAWortman', 'Beth_CSUF'].indexOf(username) < 0) {
-    return {
-      id: 4,
-      username: username,
-      email: email,
-      password: password
-    }
-  }
+export async function postMessage(userId, text) {
+  const response = fetch('http://localhost:5000/posts/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      'user_id': userId,
+      'text': text
+    })
+  })
+  let result = await response.json()
+  console.log('This is what result equals: ', result.resources);
 }
 
-export function authenticateUser(username, password) {
-  if (username === 'ProfAvery' && password === 'password') {
-    return {
-      id: 1,
-      username: 'ProfAvery',
-      email: 'kavery@fullerton.edu',
-      password: 'password'
-    }
-  } else if (username === 'KevinAWortman' && password === 'qwerty') {
-    return {
-      id: 2,
-      username: 'KevinAWortman',
-      email: 'kwortman@fullerton.edu',
-      password: 'qwerty'
-    }
-  } else if (username === 'Beth_CSUF' && password === 'secret') {
-    return {
-      id: 3,
-      username: 'Beth_CSUF',
-      email: 'beth.harnick.shapiro@fullerton.edu',
-      password: 'secret'
-    }
-  }
+export async function createUser(username, email, password) {
+  const response = await fetch('http://localhost:5000/users/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      'username': username,
+      'email': email,
+      'password': password
+    })
+  })
 
+  let result = await response.json()
+  console.log('This is what result equals: ', result.resources);
+  return result.resources
+}
+
+export async function authenticateUser(username, password) {
+  const response = await fetch(`http://localhost:5000/users/`)
+  const result = await response.json()
+  console.log(result.resources[3]);
   return null
 }
 
@@ -213,29 +213,5 @@ export function getHomeTimeline(username) {
   /*
 Take in a username and search the db and return its fllowers and return its follwers' posts'
 */
-
-}
-
-export function postMessage(userId, text) {
-  fetch('http://localhost:5000/posts/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      'user_id': userId,
-      'text': text
-    })
-  })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(error => console.log('Error', error))
-
-  // fetch('http://localhost:5000/followers/1')
-  // .then(res => res.json())
-  // .then(data => {
-  //   console.log(data)
-  //   return data
-  // })
 
 }

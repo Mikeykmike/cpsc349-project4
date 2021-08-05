@@ -13,7 +13,7 @@ const logoutNav = document.querySelector('.logout-nav')
 const activeLink = document.querySelector('.navbaraboutuslink')
 const username = document.querySelector('.username')
 const timestamp = document.querySelector('.post-timestamp')
-const dispalyPost = document.querySelector('.displayPost')
+// const displayPost = document.querySelector('.displayPost')
 
 /*
 Extracting object from local storage and parsing it JSON
@@ -63,9 +63,8 @@ logoutNav.addEventListener('click', () => {
   location.href = 'index.html'
 })
 
-
-//Create timestamp
-function timestampGenerator(){
+// Create timestamp
+function timestampGenerator() {
   const now = new Date()
   const timestamp =
     now.getUTCFullYear() + '-' +
@@ -74,6 +73,5 @@ function timestampGenerator(){
     String(now.getUTCHours()).padStart(2, '0') + ':' +
     String(now.getUTCMinutes()).padStart(2, '0') + ':' +
     String(now.getUTCSeconds()).padStart(2, '0')
-  
   return timestamp
 }
