@@ -202,8 +202,18 @@ export function getHomeTimeline(username) {
     case 'Beth_CSUF':
       return getUserTimeline('KevinAWortman')
     default:
+      fetch(`http://localhost:5000/followers/`)
+        .then(response => response.json())
+        .then(data => {
+          const tempData = data.resources
+          fetch(`http://localhost:5000/posts/${tempData[0]}`)
+        })
       return []
   }
+  /*
+Take in a username and search the db and return its fllowers and return its follwers' posts'
+*/
+
 }
 
 export function postMessage(userId, text) {
@@ -221,8 +231,11 @@ export function postMessage(userId, text) {
     .then(data => console.log(data))
     .catch(error => console.log('Error', error))
 
-  fetch('http://localhost:5000/followers/6')
-  .then(res => res.json())
-  .then(data => console.log(data))
-  
+  // fetch('http://localhost:5000/followers/1')
+  // .then(res => res.json())
+  // .then(data => {
+  //   console.log(data)
+  //   return data
+  // })
+
 }
