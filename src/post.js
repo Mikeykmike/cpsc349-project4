@@ -13,6 +13,7 @@ const logoutNav = document.querySelector('.logout-nav')
 const activeLink = document.querySelector('.navbaraboutuslink')
 const username = document.querySelector('.username')
 const timestamp = document.querySelector('.post-timestamp')
+const dispalyPost = document.querySelector('.displayPost')
 
 /*
 Extracting object from local storage and parsing it JSON
@@ -26,8 +27,6 @@ if (document.URL.includes('post.html')) {
   timestamp.classList.add('hidden')
 }
 
-let tempUser
-
 if (localStorage.getItem('loggedin') === 'true') {
   signUpbtn.textContent = 'Log Out'
   signUpbtn.style.backgroundColor = 'red'
@@ -39,13 +38,13 @@ if (localStorage.getItem('loggedin') === 'true') {
 
 // Event Listeners
 btnPost.addEventListener('click', () => {
-  tempUser = mockroblog.postMessage(4, textPost.value) // tempUser.text returns text
-  textPost.value = ''
+  mockroblog.postMessage(account.id, textPost.value)
   username.classList.remove('hidden')
   timestamp.classList.remove('hidden')
   username.textContent = `${account.username} Posted`
-  timestamp.textContent = tempUser.timestamp
-  textDisplayPost.textContent = tempUser.text
+  timestamp.textContent = timestampGenerator()
+  textDisplayPost.textContent = textPost.value
+  textPost.value = ''
 })
 signUpbtn.addEventListener('click', () => {
   localStorage.clear()
@@ -63,3 +62,18 @@ logoutNav.addEventListener('click', () => {
   alert('Successfully logged out.')
   location.href = 'index.html'
 })
+
+
+//Create timestamp
+function timestampGenerator(){
+  const now = new Date()
+  const timestamp =
+    now.getUTCFullYear() + '-' +
+    String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
+    String(now.getUTCDate()).padStart(2, '0') + ' ' +
+    String(now.getUTCHours()).padStart(2, '0') + ':' +
+    String(now.getUTCMinutes()).padStart(2, '0') + ':' +
+    String(now.getUTCSeconds()).padStart(2, '0')
+  
+  return timestamp
+}

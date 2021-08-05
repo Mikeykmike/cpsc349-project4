@@ -1,6 +1,6 @@
 /* Mockroblog client API stubs for prototyping */
 
-export function createUser (username, email, password) {
+export function createUser(username, email, password) {
   if (['ProfAvery', 'KevinAWortman', 'Beth_CSUF'].indexOf(username) < 0) {
     return {
       id: 4,
@@ -11,7 +11,7 @@ export function createUser (username, email, password) {
   }
 }
 
-export function authenticateUser (username, password) {
+export function authenticateUser(username, password) {
   if (username === 'ProfAvery' && password === 'password') {
     return {
       id: 1,
@@ -38,7 +38,7 @@ export function authenticateUser (username, password) {
   return null
 }
 
-export function addFollower (userId, userIdToFollow) {
+export function addFollower(userId, userIdToFollow) {
   if (userId > 3) {
     return {
       id: 6,
@@ -48,7 +48,7 @@ export function addFollower (userId, userIdToFollow) {
   }
 }
 
-export function removeFollower (userId, userIdToStopFollowing) {
+export function removeFollower(userId, userIdToStopFollowing) {
   if (userId <= 3) {
     return {
       message: null
@@ -56,7 +56,7 @@ export function removeFollower (userId, userIdToStopFollowing) {
   }
 }
 
-export function getUserTimeline (username) {
+export function getUserTimeline(username) {
   switch (username) {
     case 'ProfAvery':
       return [
@@ -108,7 +108,7 @@ export function getUserTimeline (username) {
   }
 }
 
-export function getPublicTimeline () {
+export function getPublicTimeline() {
   return [
     {
       id: 2,
@@ -149,7 +149,7 @@ export function getPublicTimeline () {
   ]
 }
 
-export function getHomeTimeline (username) {
+export function getHomeTimeline(username) {
   switch (username) {
     case 'ProfAvery':
       return [
@@ -206,22 +206,23 @@ export function getHomeTimeline (username) {
   }
 }
 
-export function postMessage (userId, text) {
-  if (userId > 3) {
-    const now = new Date()
-    const timestamp =
-      now.getUTCFullYear() + '-' +
-      String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
-      String(now.getUTCDate()).padStart(2, '0') + ' ' +
-      String(now.getUTCHours()).padStart(2, '0') + ':' +
-      String(now.getUTCMinutes()).padStart(2, '0') + ':' +
-      String(now.getUTCSeconds()).padStart(2, '0')
+export function postMessage(userId, text) {
+  fetch('http://localhost:5000/posts/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      'user_id': userId,
+      'text': text
+    })
+  })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.log('Error', error))
 
-    return {
-      id: 7,
-      user_id: userId,
-      text: text,
-      timestamp: timestamp
-    }
-  }
+  fetch('http://localhost:5000/followers/6')
+  .then(res => res.json())
+  .then(data => console.log(data))
+  
 }
