@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+
 module.exports = {
   output: {
     clean: true
@@ -11,7 +12,8 @@ module.exports = {
     public: path.resolve(__dirname, './src/public.js'),
     user: path.resolve(__dirname, './src/user.js'),
     index: path.resolve(__dirname, './src/index.js'),
-    about: path.resolve(__dirname, './src/aboutus.js')
+    about: path.resolve(__dirname, './src/aboutus.js'),
+    messages: path.resolve(__dirname, './src/messages.js')
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -44,6 +46,12 @@ module.exports = {
       template: path.resolve(__dirname, 'src/user.html'),
       chunks: ['user']
     }),
+    new HtmlWebpackPlugin({
+      filename: 'messages.html',
+      template: path.resolve(__dirname, 'src/messages.html'),
+      chunks: ['messages']
+    }),
+    
   ],
   module: {
     rules: [
