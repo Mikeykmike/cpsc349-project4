@@ -35,7 +35,7 @@ export function authenticateUser(username, password) {
     }
   }
 
-  return null
+  return null                
 }
 
 export function addFollower(userId, userIdToFollow) {
