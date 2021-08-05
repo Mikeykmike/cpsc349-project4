@@ -40,4 +40,4 @@ signUpbtn.addEventListener('click', () => {
   localStorage.clear()
   alert('Successfully logged out.')
   location.href = 'index.html'
-  })
+})
