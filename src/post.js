@@ -13,12 +13,32 @@ const logoutNav = document.querySelector('.logout-nav')
 const activeLink = document.querySelector('.navbaraboutuslink')
 const username = document.querySelector('.username')
 const timestamp = document.querySelector('.post-timestamp')
-// const displayPost = document.querySelector('.displayPost')
 
 /*
 Extracting object from local storage and parsing it JSON
 */
 const account = JSON.parse(localStorage.getItem('profile'))
+
+/*
+******************************
+**** Post button *****
+**** Post btn  UI   *****
+******************************
+*/
+btnPost.addEventListener('click', () => {
+  postHelper()
+})
+
+/*
+******************************
+**** mobile menu button *****
+**** mobile menu  UI   *****
+******************************
+*/
+btn.addEventListener('click', () => {
+  console.log('mobile')
+  menu.classList.toggle('hidden')
+})
 
 if (document.URL.includes('post.html')) {
   activeLink.classList.add('text-blue-400')
@@ -36,25 +56,10 @@ if (localStorage.getItem('loggedin') === 'true') {
   location.href = 'index.html'
 }
 
-// Event Listeners
-btnPost.addEventListener('click', () => {
-  mockroblog.postMessage(account.id, textPost.value)
-  username.classList.remove('hidden')
-  timestamp.classList.remove('hidden')
-  username.textContent = `${account.username} Posted`
-  timestamp.textContent = timestampGenerator()
-  textDisplayPost.textContent = textPost.value
-  textPost.value = ''
-})
 signUpbtn.addEventListener('click', () => {
   localStorage.clear()
   alert('Successfully logged out.')
   location.href = 'index.html'
-})
-
-btn.addEventListener('click', () => {
-  console.log('mobile')
-  menu.classList.toggle('hidden')
 })
 
 logoutNav.addEventListener('click', () => {
@@ -62,6 +67,14 @@ logoutNav.addEventListener('click', () => {
   alert('Successfully logged out.')
   location.href = 'index.html'
 })
+
+
+/*
+*******************************************************
+************* HELPER FUNCTIONS BELOW ******************
+*******************************************************
+*******************************************************
+*/
 
 // Create timestamp
 function timestampGenerator() {
@@ -74,4 +87,25 @@ function timestampGenerator() {
     String(now.getUTCMinutes()).padStart(2, '0') + ':' +
     String(now.getUTCSeconds()).padStart(2, '0')
   return timestamp
+}
+
+/*
+******************************
+**** Post button button *****
+**** Make user post   *****
+******************************
+*/
+
+async function postHelper() {
+  const postValid = await mockroblog.postMessage(account.id, textPost.value)
+  if (postValid) {
+    username.classList.remove('hidden')
+    timestamp.classList.remove('hidden')
+    username.textContent = `${account.username} Posted`
+    timestamp.textContent = timestampGenerator()
+    textDisplayPost.textContent = textPost.value
+    textPost.value = ''
+  } else {
+    alert('There was an error posting this message')
+  }
 }

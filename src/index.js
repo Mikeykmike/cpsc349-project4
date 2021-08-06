@@ -2,23 +2,6 @@ import './tailwind.css'
 import * as mockroblog from './mockroblog.js'
 window.mockroblog = mockroblog
 
-// async function search (term = '') {
-//   const query = encodeURIComponent(`%%${term}%%`)
-//   const response = await fetch(`http://localhost:5000/posts/?text=${query}`)
-//   const data = await response.json()
-
-//   result.textContent = JSON.stringify(data.resources, null, 2)
-//   resultDiv.hidden = !term
-// }
-
-// searchForm.addEventListener('submit', (event) => {
-//   event.preventDefault()
-// })
-
-// keyword.addEventListener('input', (event) => {
-//   search(keyword.value)
-// })
-
 const btnLogIn = document.querySelector('.btn-login')
 const btnSignUp = document.querySelector('.btn-signup')
 const inputUsername = document.querySelector('.input-username')
@@ -47,31 +30,33 @@ let eerrorMessage
 let perrorMessage
 let fakeEmail
 
-// Event Listeners
-btnLogIn.addEventListener('click', (e) => {
-  testUser = mockroblog.authenticateUser((inputUsername.value), (inputPassword.value))
-  if (testUser != null) {
-    e.preventDefault()
-    alert(`Login Successful \n\nWelcome ${testUser.username}`)
-    /*
-    Local storage
-    */
-    localStorage.setItem('profile', JSON.stringify(testUser))
-    localStorage.setItem('loggedin', 'true')
-    location.href = 'user.html'
-  } else if (inputUsername.value === '' || inputUsername.value == null) {
-    e.preventDefault()
-    alert('Login Failed \n\nUsername cannot be empty.')
-  }
-  else if (inputPassword.value === '' || inputPassword.value == null) {
-    e.preventDefault()
-    alert('Login Failed \n\nPassword cannot be empty.')
-  } else {
-    e.preventDefault()
-    alert('Login Failed \n\nUsername or password do not match any credentials in the system.')
-  }
+/*
+******************************
+**** Login user button *****
+**** Login btn on UI   *****
+******************************
+*/
+btnLogIn.addEventListener('click', () => {
+  loginUserHelper()
 })
 
+/*
+******************************
+**** Create user button *****
+**** Create btn on UI   *****
+******************************
+*/
+btnCreate.addEventListener('click', () => {
+  createUserHelper()
+})
+
+
+/*
+******************************
+**** mobile menu button *****
+**** mobile menu  UI   *****
+******************************
+*/
 btn.addEventListener('click', () => {
   console.log('mobile')
   menu.classList.toggle('hidden')
@@ -112,12 +97,22 @@ textLogin.addEventListener('click', () => {
   logInSignupHelper()
 })
 
-btnCreate.addEventListener('click', (e) => {
-  e.preventDefault()
-  createUserHelper()
-})
 
-// Helper functions
+
+/*
+*******************************************************
+************* HELPER FUNCTIONS BELOW ******************
+*******************************************************
+*******************************************************
+*/
+
+
+/*
+******************************
+**** login/signup Helper *****
+**** change button between Login and Sign up
+******************************
+*/
 function logInSignupHelper() {
   loginContainer.classList.toggle('hidden')
   signupContainer.classList.toggle('hidden')
@@ -130,10 +125,18 @@ function logInSignupHelper() {
 }
 
 
+/*
+******************************
+**** Create user helper *****
+**** function helps create user *****
+******************************
+*/
+async function createUserHelper() {
+  createUser = await mockroblog.createUser(createUserAcc.value, createUserEmail.value, createUserPassword.value)
 
-async function createUserHelper(){
-  createUser = await mockroblog.createUser(createUserAcc.value,createUserEmail.value, createUserPassword.value)
-  console.log(createUser);
+  if (!createUser) {
+    alert('There was an issue creating the user')
+  }
   /*
   Email Validation
   */
@@ -155,7 +158,7 @@ async function createUserHelper(){
   */
   if (createUserAcc.value.length >= 4 && createUserEmail.value.length >= 7 && createUserPassword.value.length >= 8 && fakeEmail !== 1) {
     alert(`User successfully created.\n\n Email:${createUser.email} \n\n Username: ${createUser.username} \n\n Password: ${createUser.password}`)
-    location.href = 'user.html'
+    location.href = 'index.html'
   } else if (createUserEmail.value.length < 7) {
     eerrorMessage = 'Please enter a valid email address.'
     emailErrorElement.innerText = eerrorMessage
@@ -168,5 +171,32 @@ async function createUserHelper(){
     perrorMessage = 'Password must be between 8 - 25 characters.'
     passwordErrorElement.innerText = perrorMessage
     document.getElementById('perror').classList.toggle('hidden')
+  }
+}
+
+
+/*
+******************************
+**** Log in user helper*****
+**** function helps log in user *****
+******************************
+*/
+async function loginUserHelper() {
+  testUser = await mockroblog.authenticateUser((inputUsername.value), (inputPassword.value))
+  if (testUser) {
+    alert(`Login Successful \n\nWelcome ${testUser.username}`)
+    /*
+    Local storage
+    */
+    localStorage.setItem('profile', JSON.stringify(testUser))
+    localStorage.setItem('loggedin', 'true')
+    location.href = 'user.html'
+  } else if (inputUsername.value === '' || inputUsername.value == null) {
+    alert('Login Failed \n\nUsername cannot be empty.')
+  }
+  else if (inputPassword.value === '' || inputPassword.value == null) {
+    alert('Login Failed \n\nPassword cannot be empty.')
+  } else if (!testUser) {
+    alert('Login Failed \n\nUsername or password do not match any credentials in the system.')
   }
 }

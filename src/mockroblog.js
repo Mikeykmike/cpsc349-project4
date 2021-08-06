@@ -1,16 +1,20 @@
 export async function postMessage(userId, text) {
-  const response = fetch('http://localhost:5000/posts/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      'user_id': userId,
-      'text': text
+  try {
+    await fetch('http://localhost:5000/posts/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'user_id': userId,
+        'text': text
+      })
     })
-  })
-  let result = await response.json()
-  console.log('This is what result equals: ', result.resources);
+    return true
+  } catch (err) {
+    console.log(err);
+    return false
+  }
 }
 
 export async function createUser(username, email, password) {
@@ -39,10 +43,14 @@ export async function createUser(username, email, password) {
 }
 
 export async function authenticateUser(username, password) {
-  const response = await fetch(`http://localhost:5000/users/`)
-  const result = await response.json()
-  console.log(result.resources[3]);
-  return null
+  try {
+    const response = await fetch(`http://localhost:5000/users/?username=${username}&password=${password}`)
+    const result = await response.json()
+    return result.resources[0]
+  } catch (err) {
+    console.log(err);
+    return null
+  }
 }
 
 export function addFollower(userId, userIdToFollow) {
