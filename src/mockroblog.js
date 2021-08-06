@@ -1,3 +1,15 @@
+export async function likeMessage() {
+  try {
+    const response = await fetch('http://localhost:5000/likes/')
+    const result = await response.json()
+    return result.resources
+  } catch (err) {
+    console.log(err);
+    return null
+  }
+}
+
+
 export async function postMessage(userId, text) {
   try {
     await fetch('http://localhost:5000/posts/', {
