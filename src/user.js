@@ -11,6 +11,8 @@ const signUpbtn = document.querySelector('.tempbtn')
 const logoutNav = document.querySelector('.logout-nav')
 const activeLink = document.querySelector('.navbaraboutuslink')
 
+
+
 if (document.URL.includes('user.html')) {
   activeLink.classList.add('text-blue-400')
   activeLink.classList.add('font-extrabold')
@@ -33,7 +35,6 @@ if (localStorage.getItem('loggedin') === 'true') {
 /*
 Api variables
 */
-const userPost = mockroblog.getUserTimeline(account.username)
 displayUser.textContent = account.username
 
 // Event Listeners
@@ -54,8 +55,18 @@ logoutNav.addEventListener('click', () => {
   location.href = 'index.html'
 })
 
-userPost.forEach(obj => {
-  myPost.innerHTML += `
+/*
+*******************************************************
+************* HELPER FUNCTIONS BELOW ******************
+*******************************************************
+*******************************************************
+*/
+displayTimelineHelper()
+async function displayTimelineHelper() {
+  const username = await mockroblog.getUser(account.username)
+  const userPost = await mockroblog.getUserTimeline(username)
+  userPost.forEach(obj => {
+    myPost.innerHTML += `
   <span
   <span class="font-bold text-indigo-600 text-sm tracking-wide"> 
   ${obj.timestamp}</span>
@@ -64,4 +75,5 @@ userPost.forEach(obj => {
   </p>
   <br>
     `
-})
+  })
+}
