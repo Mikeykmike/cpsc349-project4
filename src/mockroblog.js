@@ -14,21 +14,28 @@ export async function postMessage(userId, text) {
 }
 
 export async function createUser(username, email, password) {
-  const response = await fetch('http://localhost:5000/users/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      'username': username,
-      'email': email,
-      'password': password
+  try {
+    const response = await fetch('http://localhost:5000/users/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'username': username,
+        'email': email,
+        'password': password
+      })
     })
-  })
-
-  let result = await response.json()
-  console.log('This is what result equals: ', result.resources);
-  return result.resources
+    let result = await response.json()
+    return {
+      'email': email,
+      'username': username,
+      'password': password
+    }
+  } catch (err) {
+    console.log(err);
+    return false
+  }
 }
 
 export async function authenticateUser(username, password) {

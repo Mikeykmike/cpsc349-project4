@@ -63,17 +63,6 @@ btnLogIn.addEventListener('click', (e) => {
     e.preventDefault()
     alert('Login Failed \n\nUsername cannot be empty.')
   }
-  // Disabled for security reasons
-  // else if (inputUsername.value != 'ProfAvery' || inputUsername.value != 'KevinAWortman' || inputUsername.value != 'Beth_CSUF')
-  // {
-  //     e.preventDefault();
-  //     alert('Login Failed \n\nUsername not recognized');
-  // }
-  // else if (inputUsername.value == 'ProfAvery' || inputUsername.value == 'KevinAWortman' || inputUsername.value == 'Beth_CSUF')
-  // {
-  //     e.preventDefault();
-  //     alert('Login Failed \n\nIncorrect Password');
-  // }
   else if (inputPassword.value === '' || inputPassword.value == null) {
     e.preventDefault()
     alert('Login Failed \n\nPassword cannot be empty.')
@@ -124,51 +113,12 @@ textLogin.addEventListener('click', () => {
 })
 
 btnCreate.addEventListener('click', (e) => {
-  createUser = mockroblog.createUser(createUserAcc.value, createUserEmail.value, createUserPassword.value)
-
-  for (let i = 0; i < createUserEmail.value.length; i++) {
-    if (createUserEmail.value[i] === '@') {
-      fakeEmail = 0
-      break
-    }
-    else if (i === createUserEmail.value.length - 1) {
-      e.preventDefault()
-      eerrorMessage = 'Please enter a valid email address.'
-      emailErrorElement.innerText = eerrorMessage
-      document.getElementId('eerror').classList.toggle('hidden')
-      fakeEmail = 1
-    }
-  }
-
-  if (createUserAcc.value.length >= 4 && createUserEmail.value.length >= 7 && createUserPassword.value.length >= 8 && fakeEmail !== 1) {
-    alert(`User successfully created.\n\n Email:${createUser.email} \n\n Username: ${createUser.username} \n\n Password: ${createUser.password}`)
-    location.href = 'user.html'
-  } else if (createUserEmail.value.length < 7) {
-    e.preventDefault()
-    eerrorMessage = 'Please enter a valid email address.'
-    emailErrorElement.innerText = eerrorMessage
-    document.getElementId('eerror').classList.toggle('hidden')
-  } else if (createUserAcc.value.length < 4 || createUserAcc.value.length > 20) {
-    e.preventDefault()
-    uerrorMessage = 'Username must be between 4 - 20 characters.'
-    userErrorElement.innerText = uerrorMessage
-    document.getElementID('uerror').classList.toggle('hidden')
-  } else if (createUserAcc.value === 'ProfAvery' || createUserAcc.value === 'KevinAWortman' || createUserAcc.value === 'Beth_CSUF') {
-    e.preventDefault()
-    uerrorMessage = 'Username already taken.'
-    console.log('taken')
-    userErrorElement.innerText = uerrorMessage
-    document.getElementID('uerror').classList.toggle('hidden')
-  } else if (createUserPassword.value.length < 8 || createUserPassword.value.length > 25) {
-    e.preventDefault()
-    perrorMessage = 'Password must be between 8 - 25 characters.'
-    passwordErrorElement.innerText = perrorMessage
-    document.getElementID('perror').classList.toggle('hidden')
-  }
+  e.preventDefault()
+  createUserHelper()
 })
 
 // Helper functions
-function logInSignupHelper () {
+function logInSignupHelper() {
   loginContainer.classList.toggle('hidden')
   signupContainer.classList.toggle('hidden')
 
@@ -176,5 +126,47 @@ function logInSignupHelper () {
     signupNav.textContent = 'Login'
   } else {
     signupNav.textContent = 'Sign Up'
+  }
+}
+
+
+
+async function createUserHelper(){
+  createUser = await mockroblog.createUser(createUserAcc.value,createUserEmail.value, createUserPassword.value)
+  console.log(createUser);
+  /*
+  Email Validation
+  */
+  for (let i = 0; i < createUserEmail.value.length; i++) {
+    if (createUserEmail.value[i] === '@') {
+      fakeEmail = 0
+      break
+    }
+    else if (i === createUserEmail.value.length - 1) {
+      eerrorMessage = 'Please enter a valid email address.'
+      emailErrorElement.innerText = eerrorMessage
+      document.getElementById('eerror').classList.toggle('hidden')
+      fakeEmail = 1
+    }
+  }
+
+  /*
+  Fields are filled out and validated
+  */
+  if (createUserAcc.value.length >= 4 && createUserEmail.value.length >= 7 && createUserPassword.value.length >= 8 && fakeEmail !== 1) {
+    alert(`User successfully created.\n\n Email:${createUser.email} \n\n Username: ${createUser.username} \n\n Password: ${createUser.password}`)
+    location.href = 'user.html'
+  } else if (createUserEmail.value.length < 7) {
+    eerrorMessage = 'Please enter a valid email address.'
+    emailErrorElement.innerText = eerrorMessage
+    document.getElementById('eerror').classList.toggle('hidden')
+  } else if (createUserAcc.value.length < 4 || createUserAcc.value.length > 20) {
+    uerrorMessage = 'Username must be between 4 - 20 characters.'
+    userErrorElement.innerText = uerrorMessage
+    document.getElementById('uerror').classList.toggle('hidden')
+  } else if (createUserPassword.value.length < 8 || createUserPassword.value.length > 25) {
+    perrorMessage = 'Password must be between 8 - 25 characters.'
+    passwordErrorElement.innerText = perrorMessage
+    document.getElementById('perror').classList.toggle('hidden')
   }
 }
