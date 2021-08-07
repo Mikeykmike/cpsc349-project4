@@ -69,10 +69,6 @@ export async function removeLike(post_id) {
   }
 }
 
-
-
-
-
 export async function likedMessageUserId(currUser) {
   try {
     const response = await fetch(`http://localhost:5000/likes/?user_id=${currUser.id}`)
@@ -183,8 +179,7 @@ export function removeFollower(userId, userIdToStopFollowing) {
 
 export async function getPublicTimeline1() {
   try {
-    console.log('here');
-    const response = await fetch('http://localhost:5000/posts/?sort=-timestamp')
+    const response = await fetch('http://localhost:5000/posts/')
     const result = await response.json()
     return result.resources
   } catch (err) {
