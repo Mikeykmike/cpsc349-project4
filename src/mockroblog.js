@@ -21,10 +21,61 @@ export async function getUserTimeline(username) {
   }
 }
 
-
-export async function likeMessage() {
+export async function likedMessage() {
   try {
     const response = await fetch('http://localhost:5000/likes/')
+    const result = await response.json()
+    return result.resources
+  } catch (err) {
+    console.log(err);
+    return null
+  }
+}
+
+export async function addLike(user_id, post_id, timestamp) {
+  try {
+    await fetch('http://localhost:5000/likes/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'user_id': user_id,
+        'post_id': post_id,
+        'timestamp': timestamp
+      })
+    })
+
+    return true
+  } catch (err) {
+    console.log(err);
+    return false
+  }
+}
+
+export async function removeLike(post_id) {
+  try {
+    console.log(post_id);
+    await fetch(`http://localhost:5000/likes/${post_id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    return true
+  } catch (err) {
+    console.log(err);
+    return false
+  }
+}
+
+
+
+
+
+export async function likedMessageUserId(currUser) {
+  try {
+    const response = await fetch(`http://localhost:5000/likes/?user_id=${currUser.id}`)
     const result = await response.json()
     return result.resources
   } catch (err) {
@@ -41,6 +92,17 @@ export async function getAllPosts() {
   } catch (err) {
     console.log(err);
     return null;
+  }
+}
+
+export async function getPostsUserId(currUser) {
+  try {
+    const response = await fetch(`http://localhost:5000/posts/?user_id=${currUser.id}`)
+    const result = await response.json()
+    return result.resources
+  } catch (err) {
+    console.log(err);
+    return null
   }
 }
 

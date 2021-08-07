@@ -132,6 +132,82 @@ if (localStorage.getItem('loggedin') === 'true') {
   console.log('im not logged in')
 }
 
+
+likebtn.forEach((btn, index) => {
+  btn.addEventListener('click', () => {
+    likeHelper(index)
+  })
+})
+
+/*
+*******************************************************
+************* HELPER FUNCTIONS BELOW ******************
+*******************************************************
+*******************************************************
+*/
+
+async function likeHelper(index) {
+  const currUser = await mockroblog.getUser(account.username)
+  const likeContainer = await mockroblog.likedMessageUserId(currUser)
+  let flag = true
+  let tempIndex = 0
+  let temp = Number(likeCount[index].textContent)
+
+  for (let i = 0; i <= likeContainer.length - 1; i++) {
+    if (likeContainer[i].post_id != index + 1 && flag != false) {
+      flag = true
+    } else {
+      flag = false
+      tempIndex = likeContainer[i].id
+      break
+    }
+  }
+
+  if (flag) {
+    temp++
+    likeCount[index].textContent = String(temp)
+    mockroblog.addLike(currUser.id, index + 1, timestampGenerator())
+  } else {
+    temp--
+    likeCount[index].textContent = String(temp)
+    mockroblog.removeLike(tempIndex)
+  }
+}
+
+
+displayLikesHelper()
+async function displayLikesHelper() {
+  const likedMessages = await mockroblog.likedMessage()
+  const posts = await mockroblog.getAllPosts()
+  let likeCounter = 0;
+  posts.forEach((obj, index) => {
+    likedMessages.forEach(obj2 => {
+      if (obj2.post_id == obj.id) {
+        likeCounter++
+      }
+    })
+    likeCount[index].textContent = String(likeCounter)
+    likeCounter = 0;
+  })
+}
+
+
+/*
+Time stamp Generator
+*/
+// Create timestamp
+function timestampGenerator() {
+  const now = new Date()
+  const timestamp =
+    now.getUTCFullYear() + '-' +
+    String(now.getUTCMonth() + 1).padStart(2, '0') + '-' +
+    String(now.getUTCDate()).padStart(2, '0') + ' ' +
+    String(now.getUTCHours()).padStart(2, '0') + ':' +
+    String(now.getUTCMinutes()).padStart(2, '0') + ':' +
+    String(now.getUTCSeconds()).padStart(2, '0')
+  return timestamp
+}
+
 /*fetch('http://localhost:5000/admin/posts/', {
   method: 'GET',
   headers: {
@@ -210,3 +286,4 @@ async function displayPublicTimeline() {
           `
       })
 }
+
