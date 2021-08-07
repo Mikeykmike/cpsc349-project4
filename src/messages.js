@@ -16,6 +16,10 @@ const logoutNav = document.querySelector('.logout-nav')
 const activeLink = document.querySelector('.navbaraboutuslink')
 const typingMessage = document.querySelector('#typing-message')
 const btnSend = document.querySelector('.btn-send')
+const btnNewmsg = document.querySelector('.btn-new')
+const btnDeletemsg = document.querySelector('.btn-delete')
+const newMsgField = document.querySelector('.new-msg-field')
+const deleteMsgField = document.querySelector('.delete-msg-field')
 
 if (document.URL.includes('messages.html')) {
   activeLink.classList.add('text-blue-400')
@@ -31,6 +35,8 @@ if (localStorage.getItem('loggedin') === 'true') {
   location.href = 'index.html'
 }
 
+
+// Event Listeners
 btn.addEventListener('click', () => {
   console.log('mobile')
   menu.classList.toggle('hidden')
@@ -53,6 +59,19 @@ btnSend.addEventListener('click', () => {
   sendHelper()
 })
 
+btnNewmsg.classList.toggle('hidden') // Appear by default
+btnDeletemsg.classList.toggle('hidden') // Appear by default
+
+btnNewmsg.addEventListener('click', () => {
+  btnNewmsg.classList.toggle('hidden')
+  newMsgField.classList.toggle('hidden')
+})
+
+btnDeletemsg.addEventListener('click', () => {
+  btnDeletemsg.classList.toggle('hidden')
+  deleteMsgField.classList.toggle('hidden')
+})
+// Helper Functions
 async function sendHelper() {
   const sendValid = await mockroblog.sendMessage(account.id, 2, typingMessage.value)
   
