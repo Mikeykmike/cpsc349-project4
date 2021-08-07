@@ -57,19 +57,19 @@ publicPost.forEach(obj => {
     </div>
 
     <!--follow button-->
-   
+
         <button class = 'followtbtn hidden m-2 w-20 h-5 h-2 pb-2 text-white font-bold tracking-wider rounded bg-blue-500 active:bg-blue-700'>
         follow
         </button> 
-    
+
 
     <!--unfollow button-->
-    
+
         <button class = "unfollowbtn hidden m-2 w-20 h-5 text-white font-bold tracking-wider rounded bg-blue-500 active:bg-blue-700">
         unfollow
         </button> 
-   
-    
+
+
         <div class="timeline-container"> </div>
         <div class="timeline-pointer" aria-hidden="true">
             <div class="postContainer bg-white p-2 rounded-md shadow-md">
@@ -137,17 +137,13 @@ if (localStorage.getItem('loggedin') === 'true') {
 } else {
   console.log('im not logged in')
 }
-likebtn.forEach((obj, index) => {
 
-  obj.addEventListener('click', () => {
+likebtn.forEach(btn => {
+  btn.addEventListener('click', () => {
     likeHelper()
-    likecounter += Number(likeCount[index].textContent) + 1
-    likeCount[index].textContent = String(likecounter)
-    console.log(likeCount[index]);
+
   })
-
 })
-
 
 /*
 *******************************************************
@@ -157,6 +153,27 @@ likebtn.forEach((obj, index) => {
 */
 
 async function likeHelper() {
+  const currUser = await mockroblog.getUser(account.username)
   const likeContainer = await mockroblog.likeMessage()
+  let temp
   console.log(likeContainer);
+  console.log(currUser);
+}
+
+
+displayLikesHelper()
+async function displayLikesHelper() {
+  const likedMessages = await mockroblog.likeMessage()
+  const posts = await mockroblog.getAllPosts()
+  let likeCounter = 0;
+  posts.forEach((obj, index) => {
+    likedMessages.forEach(obj2 => {
+      if (obj2.post_id == obj.id) {
+        likeCounter++
+      }
+    })
+    console.log(`Post id ${obj.id} had ${likeCounter} likes`);
+    likeCount[index].textContent = String(likeCounter)
+    likeCounter = 0;
+  })
 }
