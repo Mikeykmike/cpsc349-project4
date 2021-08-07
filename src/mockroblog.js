@@ -113,6 +113,38 @@ export async function getPostsUserId(currUser) {
   }
 }
 
+// export async function sendMessage(sendingId, recievingId, text) {
+//   try {
+//     const response = await fetch(`http://localhost:5000/direct_messages/?from_user_id=${sendingId.id}`)
+//     const result = await response.json()
+//   } catch (err) {
+//     console.log(err);
+//     return null;
+//   }
+
+// }
+
+export async function sendMessage(sendingId, recievingId, text) {
+  try {
+    await fetch('http://localhost:5000/direct_messages/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'from_user_id': sendingId,
+        'to_user_id': recievingId,
+        'text': text
+      })      
+    })
+    getUser('ProfAvery')
+    return true
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+
+}
 
 export async function postMessage(userId, text) {
   try {
@@ -133,6 +165,8 @@ export async function postMessage(userId, text) {
     return false
   }
 }
+
+
 
 export async function createUser(username, email, password) {
   try {
