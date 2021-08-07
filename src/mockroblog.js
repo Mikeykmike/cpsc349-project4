@@ -9,6 +9,18 @@ export async function getUser(username) {
   }
 }
 
+export async function getUserById(user_id) {
+  try {
+    const response = await fetch(`http://localhost:5000/users/?id=${user_id}`)
+    const result = await response.json()
+    return result.resources[0]
+  } catch (err) {
+    console.log(err);
+    return null
+  }
+}
+
+
 export async function getUserTimeline(username) {
   try {
     if (!username) return null
@@ -55,7 +67,6 @@ export async function addLike(user_id, post_id, timestamp) {
 
 export async function removeLike(post_id) {
   try {
-    console.log(post_id);
     await fetch(`http://localhost:5000/likes/${post_id}`, {
       method: 'DELETE',
       headers: {
@@ -150,8 +161,10 @@ export async function createUser(username, email, password) {
 
 export async function authenticateUser(username, password) {
   try {
+    console.log(username, password);
     const response = await fetch(`http://localhost:5000/users/?username=${username}&password=${password}`)
     const result = await response.json()
+    console.log(result);
     return result.resources[0]
   } catch (err) {
     console.log(err);
@@ -231,20 +244,14 @@ export function getPublicTimeline() {
 }
 
 export async function getHomeTimeline(username) {
-  /*
-  getUser()
-  username = 
-  {
-    id: 1,
-    username: profAvery,
-    password: password,
-    ..
-  }
-  */
 
-  const fetch1 = await fetch(`localhost:5000/followers/?following_id=${username.id}`)
+  const fetch1 = await fetch(`http://localhost:5000/followers/?following_id=${username.id}`)
   const result = await fetch1.json()
-
-  const fetch2 = await fetch(`localthost:5000/posts/?user_id=${result.followerid}`)
-  const result2 = await fetch2.json()
+  const postContainer = []
+  for (let i = 0; i <= result.resources.length - 1; i++) {
+    const fetch2 = await fetch(`http://localhost:5000/posts/?user_id=${result.resources[i].follower_id}`)
+    const result2 = await fetch2.json()
+    postContainer.push(result2.resources)
+  }
+  return postContainer
 }
