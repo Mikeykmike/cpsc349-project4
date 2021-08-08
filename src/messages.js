@@ -24,6 +24,11 @@ const displayUsername = document.querySelector('.displayUsername')
 const displayContactList = document.querySelector('.contactsContainer')
 
 /*
+Ryan
+*/
+const displayRecipient = document.querySelector('.displayRecipient')
+
+/*
 Extracting object from local storage and parsing it JSON
 */
 const account = JSON.parse(localStorage.getItem('profile'))
@@ -68,6 +73,15 @@ btnSend.addEventListener('click', () => {
   sendHelper()
 })
 
+let recipient
+
+btnNewMsg.addEventListener('click', () => {
+  recipient = inputUsername.value
+  console.log('obtained', recipient)
+  // checkUser()
+  displayRecipient.textContent = recipient
+  inputUsername.value = ''
+})
 
 /*
 *******************************************************
@@ -78,10 +92,10 @@ btnSend.addEventListener('click', () => {
 
 
 async function sendHelper() {
-  const sendValid = await mockroblog.sendMessage(account.id, 2, typingMessage.value)
+  const sendValid = await mockroblog.sendMessage(account.id, recipient, typingMessage.value)
 
   if (sendValid) {
-    console.log('SENT FROM', account.id)
+    console.log('SENT TO', recipient)
     typingMessage.value = ''
   }
   else {
@@ -109,5 +123,13 @@ async function displayContact() {
   }
 }
 
+// async function checkUser() {
+//   const checking = await mockroblog.getUser(recipient)
+  
+//   if (mockroblog.getUser(recipient)!=null)
+//   console.log('valid user')
+//   else
+//   console.log('person doesnt exist in database')
+// }
 
 
