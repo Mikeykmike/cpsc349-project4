@@ -12,6 +12,29 @@ const logoutNav = document.querySelector('.logout-nav')
 const activeLink = document.querySelector('.navbaraboutuslink')
 const typingMessage = document.querySelector('#typing-message')
 const btnSend = document.querySelector('.btn-send')
+const displayMessage = document.querySelector('.display-message')
+
+
+
+/*
+Chris is variables 
+*/
+const btnNewMsg = document.querySelector('.btnNewMsg')
+const btnDeleteMsg = document.querySelector('.btnDeleteMsg')
+const inputUsername = document.querySelector('.inputUsername')
+const displayUsername = document.querySelector('.displayUsername')
+const displayContactList = document.querySelector('.contactsContainer')
+const displayConversation = document.querySelectorAll('.displayConversation')
+
+/*
+Ryan
+*/
+const displayRecipient = document.querySelector('.displayRecipient')
+
+/*
+Extracting object from local storage and parsing it JSON
+*/
+const account = JSON.parse(localStorage.getItem('profile'))
 
 
 
@@ -54,6 +77,15 @@ btnSend.addEventListener('click', () => {
   sendHelper()
 })
 
+let recipient
+
+btnNewMsg.addEventListener('click', () => {
+  recipient = inputUsername.value
+  console.log('obtained', recipient)
+  //checkUser()
+  displayRecipient.textContent = recipient
+  inputUsername.value = ''
+})
 
 /*
 *******************************************************
@@ -62,34 +94,19 @@ btnSend.addEventListener('click', () => {
 *******************************************************
 */
 
-
-
-/*
-Chris is variables 
-*/
-const btnNewMsg = document.querySelector('.btnNewMsg')
-const btnDeleteMsg = document.querySelector('.btnDeleteMsg')
-const inputUsername = document.querySelector('.inputUsername')
-const displayConversation = document.querySelectorAll('.displayConversation')
-const displayContactList = document.querySelector('.contactsContainer')
-
-/*
-Extracting object from local storage and parsing it JSON
-*/
-const account = JSON.parse(localStorage.getItem('profile'))
-
-
 async function sendHelper() {
-  const sendValid = await mockroblog.sendMessage(account.id, 2, typingMessage.value)
-
+  const sendValid = await mockroblog.sendMessage(account.id, recipient, typingMessage.value)
+  displayMessage.classList.remove('hidden')
+  displayMessage.textContent = typingMessage.value
   if (sendValid) {
-    console.log('SENT FROM', account.id)
+    console.log('SENT TO', recipient)
     typingMessage.value = ''
   }
   else {
     console.log('ERROR NOT SENT')
   }
 }
+
 
 displayContact()
 async function displayContact() {
@@ -110,6 +127,7 @@ async function displayContact() {
   loadConversations(document.querySelectorAll('.displayConversation'))
 }
 
+
 async function loadConversations(btnUsername) {
   const btnUser = btnUsername
   btnUser.forEach(obj => {
@@ -126,6 +144,16 @@ async function loadConversations(btnUsername) {
   }
 }
 
+
+
+// async function checkUser() {
+//   const checking = await mockroblog.getUser(recipient)
+  
+//   if (mockroblog.getUser(recipient)!=null)
+//   console.log('valid user')
+//   else
+//   console.log('person doesnt exist in database')
+// }
 
 
 

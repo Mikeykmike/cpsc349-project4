@@ -168,7 +168,7 @@ export async function sendMessage(sendingId, recievingId, text) {
         'text': text
       })
     })
-    getUser('ProfAvery')
+    //getUser('ProfAvery')
     return true
   } catch (err) {
     console.log(err);
