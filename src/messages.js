@@ -23,6 +23,7 @@ const btnDeleteMsg = document.querySelector('.btnDeleteMsg')
 const inputUsername = document.querySelector('.inputUsername')
 const displayUsername = document.querySelector('.displayUsername')
 const displayContactList = document.querySelector('.contactsContainer')
+const displayConversation = document.querySelectorAll('.displayConversation')
 
 /*
 Ryan
@@ -91,23 +92,6 @@ btnNewMsg.addEventListener('click', () => {
 *******************************************************
 *******************************************************
 */
-
-
-
-/*
-Chris is variables 
-*/
-const btnNewMsg = document.querySelector('.btnNewMsg')
-const btnDeleteMsg = document.querySelector('.btnDeleteMsg')
-const inputUsername = document.querySelector('.inputUsername')
-const displayConversation = document.querySelectorAll('.displayConversation')
-const displayContactList = document.querySelector('.contactsContainer')
-
-/*
-Extracting object from local storage and parsing it JSON
-*/
-const account = JSON.parse(localStorage.getItem('profile'))
-
 
 async function sendHelper() {
   const sendValid = await mockroblog.sendMessage(account.id, recipient, typingMessage.value)
