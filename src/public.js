@@ -55,23 +55,10 @@ async function displayPublicTimeline() {
   const getPubTimeline = await mockroblog.getPublicTimeline1()
   getPubTimeline.forEach(obj => {
     textPost.innerHTML += `
-        <div class='userName pt-5 w-40 px-3 font-bold text-blue-700' >
-        </p> User ID: ${obj.user_id}</p>
+        <div class='userId pt-5 w-40 px-3 font-bold text-blue-700' >${obj.user_id}
         </div>
-    
         <!--follow button-->
-    
-            <button class = 'followtbtn hidden m-2 w-20 h-5 h-2 pb-2 text-white font-bold tracking-wider rounded bg-blue-500 active:bg-blue-700'>
-            follow
-            </button> 
-    
-    
-        <!--unfollow button-->
-    
-            <button class = "unfollowbtn hidden m-2 w-20 h-5 text-white font-bold tracking-wider rounded bg-blue-500 active:bg-blue-700">
-            unfollow
-            </button> 
-    
+        <button class = 'followtbtn w-20 h-5 h-2 pb-2 m-3 text-white font-bold tracking-wider bg-blue-400 active:bg-blue-400'>follow</button>   
     
             <div class="timeline-container"> </div>
             <div class="timeline-pointer" aria-hidden="true">
@@ -108,7 +95,7 @@ async function displayPublicTimeline() {
             </div>
         `
   })
-  initLikeFunctionality(document.querySelectorAll('.likeCount'), document.querySelectorAll('.likebtn'))
+  initLikeFunctionality(document.querySelectorAll('.likeCount'), document.querySelectorAll('.likebtn'), document.querySelectorAll('.followtbtn'))
 }
 
 const follow = document.querySelectorAll('.followtbtn')
@@ -151,15 +138,49 @@ if (localStorage.getItem('loggedin') === 'true') {
 */
 
 
-async function initLikeFunctionality(btnLikeCount, btnLike) {
+async function initLikeFunctionality(btnLikeCount, btnLike, btnFollow) {
   const likeCount = btnLikeCount
   const likebtn = btnLike
+  const followbtn = btnFollow
+  const temp = document.querySelectorAll('.userId')
+
+  followbtn.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      if (btn.textContent == 'unfollow') {
+        btn.textContent = 'follow'
+        console.log(temp[index].textContent);
+        unfollowHelper(temp[index].textContent)
+      } else {
+        btn.textContent = 'unfollow'
+        followerHelper(temp[index].textContent)
+      }
+    })
+  })
+
+  temp.forEach((element, index) => {
+    setUsernames(element.textContent, index)
+  })
 
   likebtn.forEach((btn, index) => {
     btn.addEventListener('click', () => {
       likeHelper(index)
     })
   })
+
+  async function setUsernames(user_id, index) {
+    const temp2 = await mockroblog.getUserById(user_id)
+    temp[index].textContent = temp2.username
+  }
+
+  async function followerHelper(nameToFollow) {
+    const userFollowing = await mockroblog.getUser(nameToFollow)
+    await mockroblog.addFollower(account.id, userFollowing.id)
+  }
+  async function unfollowHelper(nameToStopFollowing) {
+    const userUnfollowing = await mockroblog.getUser(nameToStopFollowing)
+    await mockroblog.removeFollower(account.id, userUnfollowing.id)
+  }
+
 
   async function likeHelper(index) {
     const currUser = await mockroblog.getUser(account.username)
