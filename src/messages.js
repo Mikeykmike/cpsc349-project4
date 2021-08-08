@@ -1,10 +1,6 @@
 import './tailwind.css'
 import * as mockroblog from './mockroblog.js'
 
-/*
-Extracting object from local storage and parsing it JSON
-*/
-const account = JSON.parse(localStorage.getItem('profile'))
 
 /*
 Initialize all components from HTML
@@ -16,10 +12,23 @@ const logoutNav = document.querySelector('.logout-nav')
 const activeLink = document.querySelector('.navbaraboutuslink')
 const typingMessage = document.querySelector('#typing-message')
 const btnSend = document.querySelector('.btn-send')
-const btnNewmsg = document.querySelector('.btn-new')
-const btnDeletemsg = document.querySelector('.btn-delete')
-const newMsgField = document.querySelector('.new-msg-field')
-const deleteMsgField = document.querySelector('.delete-msg-field')
+
+
+/*
+Chris is variables 
+*/
+const btnNewMsg = document.querySelector('.btnNewMsg')
+const btnDeleteMsg = document.querySelector('.btnDeleteMsg')
+const inputUsername = document.querySelector('.inputUsername')
+const displayUsername = document.querySelector('.displayUsername')
+const displayContactList = document.querySelector('.contactsContainer')
+
+/*
+Extracting object from local storage and parsing it JSON
+*/
+const account = JSON.parse(localStorage.getItem('profile'))
+
+
 
 if (document.URL.includes('messages.html')) {
   activeLink.classList.add('text-blue-400')
@@ -59,27 +68,46 @@ btnSend.addEventListener('click', () => {
   sendHelper()
 })
 
-btnNewmsg.classList.toggle('hidden') // Appear by default
-btnDeletemsg.classList.toggle('hidden') // Appear by default
 
-btnNewmsg.addEventListener('click', () => {
-  btnNewmsg.classList.toggle('hidden')
-  newMsgField.classList.toggle('hidden')
-})
+/*
+*******************************************************
+************* HELPER FUNCTIONS BELOW ******************
+*******************************************************
+*******************************************************
+*/
 
-btnDeletemsg.addEventListener('click', () => {
-  btnDeletemsg.classList.toggle('hidden')
-  deleteMsgField.classList.toggle('hidden')
-})
-// Helper Functions
+
 async function sendHelper() {
   const sendValid = await mockroblog.sendMessage(account.id, 2, typingMessage.value)
-  
+
   if (sendValid) {
-    console.log('SENT FROM',account.id)
-    typingMessage.value= ''
+    console.log('SENT FROM', account.id)
+    typingMessage.value = ''
   }
   else {
     console.log('ERROR NOT SENT')
   }
 }
+
+displayContact()
+async function displayContact() {
+  const loggedUser = await mockroblog.getUser(account.username)
+  const temp = await mockroblog.getContacts(loggedUser)
+  let currUser
+
+  for (let i = 0; i <= temp.length - 1; i++) {
+    console.log(temp[i]);
+    currUser = await mockroblog.getUserById(temp[i].to_user_id)
+    displayContactList.innerHTML +=
+      `
+    <div class="w-full">
+      <div class="displayUsername text-lg font-semibold">
+        ${currUser.username}
+      </div>
+    </div>
+  `
+  }
+}
+
+
+

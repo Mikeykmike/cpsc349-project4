@@ -1,3 +1,34 @@
+export async function newMsg() {
+  try {
+
+  } catch (err) {
+    console.log(err);
+    return null
+  }
+}
+
+export async function deleteMsg() {
+  try {
+
+  } catch (err) {
+    console.log(err);
+    return null
+  }
+}
+
+
+export async function getContacts(curUser) {
+  try {
+    const response = await fetch(`http://localhost:5000/direct_messages/?from_user_id=${curUser.id}`)
+    const result = await response.json()
+    return result.resources
+  } catch (err) {
+    console.log(err);
+    return null
+  }
+}
+
+
 export async function getUser(username) {
   try {
     const response = await fetch(`http://localhost:5000/users/?username=${username}`)
@@ -135,7 +166,7 @@ export async function sendMessage(sendingId, recievingId, text) {
         'from_user_id': sendingId,
         'to_user_id': recievingId,
         'text': text
-      })      
+      })
     })
     getUser('ProfAvery')
     return true
