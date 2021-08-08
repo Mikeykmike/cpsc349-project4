@@ -12,6 +12,7 @@ const logoutNav = document.querySelector('.logout-nav')
 const activeLink = document.querySelector('.navbaraboutuslink')
 const typingMessage = document.querySelector('#typing-message')
 const btnSend = document.querySelector('.btn-send')
+const displayMessage = document.querySelector('.display-message')
 
 
 
@@ -81,7 +82,7 @@ let recipient
 btnNewMsg.addEventListener('click', () => {
   recipient = inputUsername.value
   console.log('obtained', recipient)
-  // checkUser()
+  //checkUser()
   displayRecipient.textContent = recipient
   inputUsername.value = ''
 })
@@ -95,7 +96,8 @@ btnNewMsg.addEventListener('click', () => {
 
 async function sendHelper() {
   const sendValid = await mockroblog.sendMessage(account.id, recipient, typingMessage.value)
-
+  displayMessage.classList.remove('hidden')
+  displayMessage.textContent = typingMessage.value
   if (sendValid) {
     console.log('SENT TO', recipient)
     typingMessage.value = ''
@@ -104,6 +106,7 @@ async function sendHelper() {
     console.log('ERROR NOT SENT')
   }
 }
+
 
 displayContact()
 async function displayContact() {
