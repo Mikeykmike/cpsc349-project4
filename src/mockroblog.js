@@ -155,18 +155,6 @@ export async function getPostsUserId(currUser) {
     return null
   }
 }
-
-// export async function sendMessage(sendingId, recievingId, text) {
-//   try {
-//     const response = await fetch(`http://localhost:5000/direct_messages/?from_user_id=${sendingId.id}`)
-//     const result = await response.json()
-//   } catch (err) {
-//     console.log(err);
-//     return null;
-//   }
-
-// }
-
 export async function sendMessage(sendingId, recievingId, text) {
   try {
     await fetch('http://localhost:5000/direct_messages/', {
@@ -249,21 +237,39 @@ export async function authenticateUser(username, password) {
   }
 }
 
-export function addFollower(userId, userIdToFollow) {
-  if (userId > 3) {
-    return {
-      id: 6,
-      follower_id: userId,
-      following_id: userIdToFollow
-    }
+export async function addFollower(userId, userIdToFollow) {
+  try {
+    const response = await fetch('http://localhost:5000/followers/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'follower_id': userIdToFollow,
+        'following_id': userId
+      })
+    })
+    return true
+  } catch (err) {
+    console.log(err);
+    return false
   }
 }
 
-export function removeFollower(userId, userIdToStopFollowing) {
-  if (userId <= 3) {
-    return {
-      message: null
-    }
+export async function removeFollower(userId, userIdToStopFollowing) {
+  try {
+    const temp = await fetch(`http://localhost:5000/followers/?following_id=${userId}&follower_id=${userIdToStopFollowing}`)
+    const response = await temp.json()
+    await fetch(`http://localhost:5000/followers/${response.resources[0].id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    return true
+  } catch (err) {
+    console.log(err);
+    return false
   }
 }
 
@@ -321,7 +327,7 @@ export function getPublicTimeline() {
 }
 
 export async function getHomeTimeline(username) {
-
+  console.log(username);
   const fetch1 = await fetch(`http://localhost:5000/followers/?following_id=${username.id}`)
   const result = await fetch1.json()
   const postContainer = []
