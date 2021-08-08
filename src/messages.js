@@ -14,6 +14,7 @@ const typingMessage = document.querySelector('#typing-message')
 const btnSend = document.querySelector('.btn-send')
 
 
+
 /*
 Chris is variables 
 */
@@ -32,6 +33,7 @@ const displayRecipient = document.querySelector('.displayRecipient')
 Extracting object from local storage and parsing it JSON
 */
 const account = JSON.parse(localStorage.getItem('profile'))
+
 
 
 
@@ -91,6 +93,22 @@ btnNewMsg.addEventListener('click', () => {
 */
 
 
+
+/*
+Chris is variables 
+*/
+const btnNewMsg = document.querySelector('.btnNewMsg')
+const btnDeleteMsg = document.querySelector('.btnDeleteMsg')
+const inputUsername = document.querySelector('.inputUsername')
+const displayConversation = document.querySelectorAll('.displayConversation')
+const displayContactList = document.querySelector('.contactsContainer')
+
+/*
+Extracting object from local storage and parsing it JSON
+*/
+const account = JSON.parse(localStorage.getItem('profile'))
+
+
 async function sendHelper() {
   const sendValid = await mockroblog.sendMessage(account.id, recipient, typingMessage.value)
 
@@ -110,18 +128,36 @@ async function displayContact() {
   let currUser
 
   for (let i = 0; i <= temp.length - 1; i++) {
-    console.log(temp[i]);
     currUser = await mockroblog.getUserById(temp[i].to_user_id)
     displayContactList.innerHTML +=
       `
     <div class="w-full">
-      <div class="displayUsername text-lg font-semibold">
-        ${currUser.username}
-      </div>
+      <button class="displayConversation text-lg font-semibold">${currUser.username}
+      </button>
     </div>
   `
   }
+  loadConversations(document.querySelectorAll('.displayConversation'))
 }
+
+
+async function loadConversations(btnUsername) {
+  const btnUser = btnUsername
+  btnUser.forEach(obj => {
+    obj.addEventListener('click', () => {
+      console.log(obj.textContent);
+      loadConversationsHelper(obj.textContent)
+    })
+  })
+
+  async function loadConversationsHelper(user) {
+    const currUser = await mockroblog.getUser(user)
+    const conversations = await mockroblog.getMessages(account.id, currUser.id)
+    console.log(conversations);
+  }
+}
+
+
 
 // async function checkUser() {
 //   const checking = await mockroblog.getUser(recipient)
@@ -131,5 +167,6 @@ async function displayContact() {
 //   else
 //   console.log('person doesnt exist in database')
 // }
+
 
 

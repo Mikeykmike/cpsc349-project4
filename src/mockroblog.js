@@ -28,6 +28,18 @@ export async function getContacts(curUser) {
   }
 }
 
+export async function getMessages(from_user_id, to_user_id) {
+  try {
+    console.log(from_user_id, to_user_id);
+    const response = await fetch(`http://localhost:5000/direct_messages/?from_user_id=${from_user_id}&to_user_id=${to_user_id}`)
+    const result = await response.json()
+    return result.resources
+  } catch (err) {
+    console.log(err);
+    return null
+  }
+}
+
 
 export async function getUser(username) {
   try {
