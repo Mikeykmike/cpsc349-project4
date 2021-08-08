@@ -15,6 +15,27 @@ const btnSend = document.querySelector('.btn-send')
 
 
 
+/*
+Chris is variables 
+*/
+const btnNewMsg = document.querySelector('.btnNewMsg')
+const btnDeleteMsg = document.querySelector('.btnDeleteMsg')
+const inputUsername = document.querySelector('.inputUsername')
+const displayUsername = document.querySelector('.displayUsername')
+const displayContactList = document.querySelector('.contactsContainer')
+
+/*
+Ryan
+*/
+const displayRecipient = document.querySelector('.displayRecipient')
+
+/*
+Extracting object from local storage and parsing it JSON
+*/
+const account = JSON.parse(localStorage.getItem('profile'))
+
+
+
 
 if (document.URL.includes('messages.html')) {
   activeLink.classList.add('text-blue-400')
@@ -54,6 +75,15 @@ btnSend.addEventListener('click', () => {
   sendHelper()
 })
 
+let recipient
+
+btnNewMsg.addEventListener('click', () => {
+  recipient = inputUsername.value
+  console.log('obtained', recipient)
+  // checkUser()
+  displayRecipient.textContent = recipient
+  inputUsername.value = ''
+})
 
 /*
 *******************************************************
@@ -80,10 +110,10 @@ const account = JSON.parse(localStorage.getItem('profile'))
 
 
 async function sendHelper() {
-  const sendValid = await mockroblog.sendMessage(account.id, 2, typingMessage.value)
+  const sendValid = await mockroblog.sendMessage(account.id, recipient, typingMessage.value)
 
   if (sendValid) {
-    console.log('SENT FROM', account.id)
+    console.log('SENT TO', recipient)
     typingMessage.value = ''
   }
   else {
@@ -110,6 +140,7 @@ async function displayContact() {
   loadConversations(document.querySelectorAll('.displayConversation'))
 }
 
+
 async function loadConversations(btnUsername) {
   const btnUser = btnUsername
   btnUser.forEach(obj => {
@@ -126,6 +157,16 @@ async function loadConversations(btnUsername) {
   }
 }
 
+
+
+// async function checkUser() {
+//   const checking = await mockroblog.getUser(recipient)
+  
+//   if (mockroblog.getUser(recipient)!=null)
+//   console.log('valid user')
+//   else
+//   console.log('person doesnt exist in database')
+// }
 
 
 
